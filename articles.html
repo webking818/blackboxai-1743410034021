@@ -79,102 +79,52 @@
             </div>
 
             <!-- Articles Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Article 1 -->
-                <div class="article-card bg-white rounded-xl overflow-hidden shadow-md animate-fade-in" style="animation-delay: 0.2s;">
-                    <img src="https://images.pexels.com/photos/7550281/pexels-photo-7550281.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="PCOS Overview" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center space-x-2 mb-2">
-                            <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-medium">PCOS</span>
-                            <span class="text-gray-500 text-xs">5 min read</span>
-                        </div>
-                        <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-2">Understanding PCOS: Symptoms and Diagnosis</h3>
-                        <p class="text-gray-600 text-sm mb-4">Learn about the common signs of Polycystic Ovary Syndrome and how it's diagnosed by healthcare professionals.</p>
-                        <a href="#" class="text-purple-600 text-sm font-medium flex items-center">
-                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                    </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="articlesGrid">
+                <div class="text-center py-8 col-span-3">
+                    <i class="fas fa-spinner fa-spin text-2xl text-purple-600"></i>
+                    <p class="mt-2 text-gray-600">Loading articles...</p>
                 </div>
+            </div>
 
-                <!-- Article 2 -->
-                <div class="article-card bg-white rounded-xl overflow-hidden shadow-md animate-fade-in" style="animation-delay: 0.3s;">
-                    <img src="https://images.pexels.com/photos/6626903/pexels-photo-6626903.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Nutrition" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center space-x-2 mb-2">
-                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Nutrition</span>
-                            <span class="text-gray-500 text-xs">7 min read</span>
-                        </div>
-                        <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-2">Dietary Approaches for Managing PCOS Symptoms</h3>
-                        <p class="text-gray-600 text-sm mb-4">Discover how certain foods can help regulate hormones and improve PCOS symptoms like insulin resistance.</p>
-                        <a href="#" class="text-purple-600 text-sm font-medium flex items-center">
-                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Article 3 -->
-                <div class="article-card bg-white rounded-xl overflow-hidden shadow-md animate-fade-in" style="animation-delay: 0.4s;">
-                    <img src="https://images.pexels.com/photos/6551166/pexels-photo-6551166.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Exercise" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center space-x-2 mb-2">
-                            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">Fitness</span>
-                            <span class="text-gray-500 text-xs">6 min read</span>
-                        </div>
-                        <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-2">Best Exercises for Women with PCOS</h3>
-                        <p class="text-gray-600 text-sm mb-4">Explore the most effective workout routines that can help manage PCOS symptoms and boost overall health.</p>
-                        <a href="#" class="text-purple-600 text-sm font-medium flex items-center">
-                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Article 4 -->
-                <div class="article-card bg-white rounded-xl overflow-hidden shadow-md animate-fade-in" style="animation-delay: 0.5s;">
-                    <img src="https://images.pexels.com/photos/4050344/pexels-photo-4050344.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Mental Health" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center space-x-2 mb-2">
-                            <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-medium">Mental Health</span>
-                            <span class="text-gray-500 text-xs">8 min read</span>
-                        </div>
-                        <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-2">Coping with the Emotional Impact of PCOS</h3>
-                        <p class="text-gray-600 text-sm mb-4">Strategies to manage stress, anxiety, and depression that often accompany PCOS diagnosis and symptoms.</p>
-                        <a href="#" class="text-purple-600 text-sm font-medium flex items-center">
-                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Article 5 -->
-                <div class="article-card bg-white rounded-xl overflow-hidden shadow-md animate-fade-in" style="animation-delay: 0.6s;">
-                    <img src="https://images.pexels.com/photos/7550283/pexels-photo-7550283.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Fertility" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center space-x-2 mb-2">
-                            <span class="bg-pink-100 text-pink-700 px-2 py-1 rounded text-xs font-medium">Fertility</span>
-                            <span class="text-gray-500 text-xs">10 min read</span>
-                        </div>
-                        <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-2">PCOS and Fertility: What You Need to Know</h3>
-                        <p class="text-gray-600 text-sm mb-4">Understanding how PCOS affects fertility and the available treatment options for those trying to conceive.</p>
-                        <a href="#" class="text-purple-600 text-sm font-medium flex items-center">
-                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Article 6 -->
-                <div class="article-card bg-white rounded-xl overflow-hidden shadow-md animate-fade-in" style="animation-delay: 0.7s;">
-                    <img src="https://images.pexels.com/photos/4474047/pexels-photo-4474047.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Treatment" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center space-x-2 mb-2">
-                            <span class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-xs font-medium">Treatment</span>
-                            <span class="text-gray-500 text-xs">9 min read</span>
-                        </div>
-                        <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-2">Medical Treatments for PCOS: A Comprehensive Guide</h3>
-                        <p class="text-gray-600 text-sm mb-4">An overview of pharmaceutical options available for managing different aspects of PCOS symptoms.</p>
-                        <a href="#" class="text-purple-600 text-sm font-medium flex items-center">
-                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                    </div>
-                </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    fetch('http://localhost:8000/api/articles')
+                        .then(response => response.json())
+                        .then(articles => {
+                            const grid = document.getElementById('articlesGrid');
+                            grid.innerHTML = ''; // Clear loading message
+                            
+                            articles.forEach(article => {
+                                const articleCard = `
+                                    <div class="article-card bg-white rounded-xl overflow-hidden shadow-md animate-fade-in">
+                                        <img src="${article.image}" alt="${article.title}" class="w-full h-48 object-cover">
+                                        <div class="p-6">
+                                            <div class="flex items-center space-x-2 mb-2">
+                                                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-medium">${article.category}</span>
+                                                <span class="text-gray-500 text-xs">${article.readTime}</span>
+                                            </div>
+                                            <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-2">${article.title}</h3>
+                                            <p class="text-gray-600 text-sm mb-4">${article.excerpt}</p>
+                                            <a href="#" class="text-purple-600 text-sm font-medium flex items-center">
+                                                Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                `;
+                                grid.insertAdjacentHTML('beforeend', articleCard);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error loading articles:', error);
+                            document.getElementById('articlesGrid').innerHTML = `
+                                <div class="text-center py-8 col-span-3 text-red-500">
+                                    <i class="fas fa-exclamation-triangle text-2xl"></i>
+                                    <p class="mt-2">Failed to load articles. Please try again later.</p>
+                                </div>
+                            `;
+                        });
+                });
+            </script>
             </div>
 
             <!-- Pagination -->
