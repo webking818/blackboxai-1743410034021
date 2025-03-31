@@ -200,18 +200,27 @@
         document.getElementById('pcosForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Simulate API call with timeout
+            const formData = Object.fromEntries(new FormData(this));
             document.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
-            
-            setTimeout(() => {
-                // This would be replaced with actual API call to your model
-                const formData = new FormData(this);
-                const riskScore = calculateRiskScore(formData);
-                displayResults(riskScore);
-                
+        
+            fetch('http://localhost:8000/api/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayResults(data.riskScore);
                 document.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-heartbeat"></i> Assess My Risk';
-            }, 1500);
-        });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to get prediction. Please try again.');
+                document.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-heartbeat"></i> Assess My Risk';
+            });
+        }); // Closing brace for the event listener
 
         function calculateRiskScore(formData) {
             // This is a simplified risk calculation for demo purposes
