@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gynecology Counseling | FemCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+        }
+        .btn-active:active {
+            transform: scale(0.95);
+        }
+        .chat-container {
+            height: 400px;
+            background-color: #f8f9fa;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        .message {
+            max-width: 70%;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            position: relative;
+        }
+        .message-user {
+            background-color: #6C5CE7;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 0.25rem;
+        }
+        .message-doctor {
+            background-color: white;
+            color: #4a5568;
+            margin-right: auto;
+            border-bottom-left-radius: 0.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .video-container {
+            position: relative;
+            background-color: #2d3748;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+        }
+        .doctor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .availability-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .available {
+            background-color: #48bb78;
+        }
+        .busy {
+            background-color: #f56565;
+        }
+        .away {
+            background-color: #f6e05e;
+        }
+    </style>
+</head>
+<body class="font-roboto bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-2xl font-poppins font-bold text-purple-600">FemCare</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600 transition-colors">Home</a>
+                    <a href="prediction.html" class="text-gray-700 hover:text-purple-600 transition-colors">PCOS Prediction</a>
+                    <a href="articles.html" class="text-gray-700 hover:text-purple-600 transition-colors">Articles</a>
+                    <a href="cab-assistant.html" class="text-gray-700 hover:text-purple-600 transition-colors">Cab Assistant</a>
+                    <a href="counseling.html" class="text-purple-600 font-medium">Counseling</a>
+                </div>
+                <button id="emergencyBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-all duration-300 flex items-center space-x-2">
+                    <i class="fas fa-bell"></i>
+                    <span>Emergency</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="animate-fade-in" style="animation-delay: 0.1s;">
+                <h1 class="text-3xl md:text-4xl font-poppins font-bold text-gray-800 mb-2">Gynecology Counseling</h1>
+                <p class="text-gray-600 mb-8">Connect with board-certified gynecologists for live chat or video consultations about PCOS and women's health.</p>
+                
+                <!-- Counseling Options -->
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <!-- Live Chat Section -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <div class="bg-purple-600 text-white px-6 py-4">
+                            <h2 class="text-xl font-poppins font-semibold flex items-center space-x-3">
+                                <i class="fas fa-comment-medical"></i>
+                                <span>Live Chat Consultation</span>
+                            </h2>
+                        </div>
+                        <div class="p-6">
+                            <div class="chat-container mb-4">
+                                <div class="chat-messages" id="chatMessages">
+                                    <!-- Messages will appear here -->
+                                    <div class="message message-doctor animate-fade-in" style="animation-delay: 0.2s;">
+                                        <p>Hello! I'm Dr. Sarah Williams, a gynecologist specializing in PCOS. How can I help you today?</p>
+                                        <p class="text-xs text-gray-500 mt-1">Today, 10:15 AM</p>
+                                    </div>
+                                </div>
+                                <div class="border-t border-gray-200 p-4">
+                                    <div class="flex space-x-2">
+                                        <input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 form-input px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-200">
+                                        <button id="sendMessageBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full transition-all duration-300 btn-hover btn-active">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center space-x-2">
+                                    <div class="availability-dot available"></div>
+                                    <span class="text-sm text-gray-600">Dr. Sarah Williams is available</span>
+                                </div>
+                                <button class="text-purple-600 hover:text-purple-700 text-sm font-medium">
+                                    <i class="fas fa-history mr-1"></i> Chat History
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Consultation Section -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <div class="bg-purple-600 text-white px-6 py-4">
+                            <h2 class="text-xl font-poppins font-semibold flex items-center space-x-3">
+                                <i class="fas fa-video"></i>
+                                <span>Video Consultation</span>
+                            </h2>
+                        </div>
+                        <div class="p-6">
+                            <div class="video-container mb-4" style="height: 300px;">
+                                <div class="video-placeholder">
+                                    <i class="fas fa-user-md text-4xl mb-3 text-purple-300"></i>
+                                    <p>Video consultation will start when scheduled</p>
+                                    <p class="text-sm text-purple-200 mt-2">Your privacy is protected</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <button id="startVideoBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 btn-hover btn-active">
+                                    <i class="fas fa-play mr-2"></i> Start Now
+                                </button>
+                                <button id="scheduleVideoBtn" class="bg-white border border-purple-600 text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg transition-all duration-300 btn-hover btn-active">
+                                    <i class="fas fa-calendar-alt mr-2"></i> Schedule
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-sm text-gray-600">Next available appointment: Today, 2:30 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Our Specialists -->
+                <div class="animate-fade-in" style="animation-delay: 0.2s;">
+                    <h2 class="text-2xl font-poppins font-semibold text-gray-800 mb-6">Our PCOS Specialists</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Doctor 1 -->
+                        <div class="doctor-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                            <img src="https://images.pexels.com/photos/4173239/pexels-photo-4173239.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Dr. Sarah Williams" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-1">Dr. Sarah Williams</h3>
+                                <p class="text-purple-600 text-sm mb-3">PCOS Specialist • 12 years experience</p>
+                                <div class="flex items-center mb-4">
+                                    <div class="availability-dot available"></div>
+                                    <span class="text-sm text-gray-600">Available now</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Specializes in hormonal disorders and fertility treatments for women with PCOS.</p>
+                                <button class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 btn-hover btn-active">
+                                    <i class="fas fa-calendar-alt mr-2"></i> Book Appointment
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Doctor 2 -->
+                        <div class="doctor-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                            <img src="https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Dr. Priya Patel" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-1">Dr. Priya Patel</h3>
+                                <p class="text-purple-600 text-sm mb-3">Endocrinologist • 8 years experience</p>
+                                <div class="flex items-center mb-4">
+                                    <div class="availability-dot away"></div>
+                                    <span class="text-sm text-gray-600">Available in 1 hour</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Focuses on metabolic aspects of PCOS and insulin resistance management.</p>
+                                <button class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 btn-hover btn-active">
+                                    <i class="fas fa-calendar-alt mr-2"></i> Book Appointment
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Doctor 3 -->
+                        <div class="doctor-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                            <img src="https://images.pexels.com/photos/8376185/pexels-photo-8376185.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Dr. Lisa Chen" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-poppins font-semibold text-gray-800 mb-1">Dr. Lisa Chen</h3>
+                                <p class="text-purple-600 text-sm mb-3">Nutrition Specialist • 6 years experience</p>
+                                <div class="flex items-center mb-4">
+                                    <div class="availability-dot busy"></div>
+                                    <span class="text-sm text-gray-600">Available tomorrow</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Provides dietary guidance and lifestyle plans tailored for PCOS management.</p>
+                                <button class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 btn-hover btn-active">
+                                    <i class="fas fa-calendar-alt mr-2"></i> Book Appointment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Video Call Modal -->
+    <div id="videoCallModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 max-w-4xl w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-poppins font-semibold text-gray-800">Video Consultation with Dr. Sarah Williams</h3>
+                <button id="closeVideoModalBtn" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="video-container mb-4" style="height: 400px;">
+                <div class="video-placeholder">
+                    <i class="fas fa-user-md text-5xl mb-3 text-purple-300"></i>
+                    <p>Connecting to video call...</p>
+                    <div class="flex space-x-4 mt-6">
+                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full">
+                            <i class="fas fa-video"></i>
+                        </button>
+                        <button class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-full">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <p class="text-sm text-gray-600">Your consultation is secure and private. Please ensure you're in a quiet, well-lit space.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Chat functionality
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        
+        // Video call elements
+        const startVideoBtn = document.getElementById('startVideoBtn');
+        const scheduleVideoBtn = document.getElementById('scheduleVideoBtn');
+        const videoCallModal = document.getElementById('videoCallModal');
+        const closeVideoModalBtn = document.getElementById('closeVideoModalBtn');
+        
+        // Send message button click handler
+        sendMessageBtn.addEventListener('click', function() {
+            sendMessage();
+        });
+        
+        // Enter key in chat input
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        function sendMessage() {
+            const messageText = chatInput.value.trim();
+            if (messageText === '') return;
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message message-user animate-fade-in';
+            userMessage.innerHTML = `
+                <p>${messageText}</p>
+                <p class="text-xs text-purple-200 mt-1">Just now</p>
+            `;
+            chatMessages.appendChild(userMessage);
+            
+            // Clear input
+            chatInput.value = '';
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Simulate doctor reply after 1-3 seconds
+            setTimeout(() => {
+                const doctorReplies = [
+                    "I understand your concern about that symptom. Can you tell me how long you've been experiencing it?",
+                    "That's a common issue with PCOS. We have several treatment options available.",
+                    "Let me check your medical history to give you a more personalized response.",
+                    "I recommend scheduling a follow-up appointment to discuss this in more detail.",
+                    "Have you noticed any patterns or triggers for this symptom?"
+                ];
+                
+                const randomReply = doctorReplies[Math.floor(Math.random() * doctorReplies.length)];
+                
+                const doctorMessage = document.createElement('div');
+                doctorMessage.className = 'message message-doctor animate-fade-in';
+                doctorMessage.innerHTML = `
+                    <p>${randomReply}</p>
+                    <p class="text-xs text-gray-500 mt-1">Just now</p>
+                `;
+                chatMessages.appendChild(doctorMessage);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000 + Math.random() * 2000);
+        }
+        
+        // Start video button click handler
+        startVideoBtn.addEventListener('click', function() {
+            videoCallModal.classList.remove('hidden');
+        });
+        
+        // Schedule video button click handler
+        scheduleVideoBtn.addEventListener('click', function() {
+            alert('Appointment scheduling would open a calendar interface in a real application.');
+        });
+        
+        // Close video modal button
+        closeVideoModalBtn.addEventListener('click', function() {
+            videoCallModal.classList.add('hidden');
+        });
+        
+        // Book appointment buttons
+        document.querySelectorAll('.doctor-card button').forEach(button => {
+            button.addEventListener('click', function() {
+                const doctorName = this.closest('.doctor-card').querySelector('h3').textContent;
+                alert(`Would schedule appointment with ${doctorName} in a real application.`);
+            });
+        });
+    </script>
+</body>
+</html>
