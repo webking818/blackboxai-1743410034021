@@ -1,46 +1,105 @@
 // Initialize Socket.IO connection
-const socket = io('http://localhost:8000'); // Will be replaced with actual server URL
+const socket = io('http://localhost:8000', {
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000
+});
+
+// Connection status indicators
+socket.on('connect', () => {
+  console.log('Connected to server');
+  document.dispatchEvent(new Event('serverConnected'));
+});
+
+socket.on('disconnect', () => {
+  console.log('Disconnected from server');
+  document.dispatchEvent(new Event('serverDisconnected'));
+});
 
 // Emergency button functionality
-document.getElementById('emergencyBtn')?.addEventListener('click', () => {
-    // Show confirmation dialog
-    const confirmed = confirm('Are you sure you want to send an emergency alert?');
-    if (confirmed) {
-        // Get user's current location if possible
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const location = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    // Emit emergency event with location
-                    socket.emit('emergency', {
-                        userId: 'current-user-id', // Replace with actual user ID
-                        location: location,
-                        timestamp: new Date().toISOString()
-                    });
-                    showEmergencyNotification('Emergency alert sent with your location');
-                },
-                () => {
-                    // Fallback if location access is denied
-                    socket.emit('emergency', {
-                        userId: 'current-user-id',
-                        timestamp: new Date().toISOString()
-                    });
-                    showEmergencyNotification('Emergency alert sent without location');
-                }
-            );
-        } else {
-            // Fallback if geolocation is not supported
-            socket.emit('emergency', {
-                userId: 'current-user-id',
-                timestamp: new Date().toISOString()
+document.getElementById('emergencyBtn')?.addEventListener('click', async () => {
+    try {
+        // Show loading state
+        const btn = document.getElementById('emergencyBtn');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        btn.disabled = true;
+
+        // Get precise location
+        const position = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
             });
-            showEmergencyNotification('Emergency alert sent');
-        }
+        });
+
+        const location = {
+            latitude: position.coords.latitude.toFixed(6),
+            longitude: position.coords.longitude.toFixed(6),
+            accuracy: position.coords.accuracy + 'm',
+            timestamp: new Date().toLocaleString(),
+            mapUrl: `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`
+        };
+
+        // Send emergency alert
+        socket.emit('emergencyAlert', {
+            type: 'medical',
+            severity: 'high',
+            userId: 'user-' + Math.floor(Math.random() * 1000), // Temp user ID
+            location,
+            message: 'PCOS Emergency Assistance Requested',
+            contacts: []
+        });
+
+        // Show success notification
+        showEmergencyNotification(`
+            <div>
+                <p><i class="fas fa-check-circle text-green-500"></i> Emergency alert sent!</p>
+                <p class="text-xs mt-1">Location: ${location.latitude}, ${location.longitude}</p>
+                <a href="${location.mapUrl}" target="_blank" class="text-xs underline">View on Map</a>
+            </div>
+        `);
+
+    } catch (error) {
+        console.error('Emergency error:', error);
+        showEmergencyNotification(`
+            <div class="text-red-500">
+                <p><i class="fas fa-exclamation-triangle"></i> Emergency sent without location</p>
+                <p class="text-xs">${error.message}</p>
+            </div>
+        `);
+    } finally {
+        // Reset button state
+        const btn = document.getElementById('emergencyBtn');
+        btn.innerHTML = '<i class="fas fa-bell"></i> Emergency';
+        btn.disabled = false;
     }
 });
+
+// Profile button functionality
+function setupProfileButton() {
+    const profileBtn = document.createElement('button');
+    profileBtn.id = 'profileBtn';
+    profileBtn.className = 'flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full transition-all';
+    profileBtn.innerHTML = `
+        <i class="fas fa-user-circle"></i>
+        <span>Profile</span>
+    `;
+    
+    profileBtn.addEventListener('click', () => {
+        // In a real app, this would navigate to profile page
+        alert('Profile page would open here');
+    });
+
+    // Add to navigation
+    const nav = document.querySelector('nav > div > div:last-child');
+    if (nav) {
+        nav.insertBefore(profileBtn, document.getElementById('emergencyBtn'));
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', setupProfileButton);
 
 // Function to show emergency notification to user
 function showEmergencyNotification(message) {
