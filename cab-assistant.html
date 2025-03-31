@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cab Assistant | FemCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+        }
+        .btn-active:active {
+            transform: scale(0.95);
+        }
+        .map-container {
+            height: 400px;
+            background-color: #e5e7eb;
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .map-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: linear-gradient(135deg, #f3f4f6 25%, #e5e7eb 25%, #e5e7eb 50%, #f3f4f6 50%, #f3f4f6 75%, #e5e7eb 75%);
+            background-size: 20px 20px;
+        }
+        .route-animation {
+            animation: routePulse 2s infinite;
+        }
+        @keyframes routePulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+        .deviation-warning {
+            animation: pulseWarning 1.5s infinite;
+        }
+        @keyframes pulseWarning {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="font-roboto bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-2xl font-poppins font-bold text-purple-600">FemCare</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600 transition-colors">Home</a>
+                    <a href="prediction.html" class="text-gray-700 hover:text-purple-600 transition-colors">PCOS Prediction</a>
+                    <a href="articles.html" class="text-gray-700 hover:text-purple-600 transition-colors">Articles</a>
+                    <a href="cab-assistant.html" class="text-purple-600 font-medium">Cab Assistant</a>
+                    <a href="counseling.html" class="text-gray-700 hover:text-purple-600 transition-colors">Counseling</a>
+                </div>
+                <button id="emergencyBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-all duration-300 flex items-center space-x-2">
+                    <i class="fas fa-bell"></i>
+                    <span>Emergency</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16 px-4 max-w-4xl mx-auto">
+        <div class="animate-fade-in" style="animation-delay: 0.1s;">
+            <h1 class="text-3xl md:text-4xl font-poppins font-bold text-gray-800 mb-2">Cab Assistant</h1>
+            <p class="text-gray-600 mb-8">Track your ride and automatically notify emergency contacts if you deviate from your route.</p>
+            
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                <!-- Destination Input -->
+                <div class="mb-6">
+                    <label for="destination" class="block text-sm font-medium text-gray-700 mb-1">Destination Address</label>
+                    <div class="flex space-x-2">
+                        <input type="text" id="destination" placeholder="Enter your destination" class="flex-1 form-input px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-200">
+                        <button id="setDestinationBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 btn-hover btn-active">
+                            Set Route
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Map Container -->
+                <div class="map-container mb-6">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt text-4xl text-gray-400 mb-2"></i>
+                        <p class="text-gray-500">Map will appear when destination is set</p>
+                    </div>
+                </div>
+
+                <!-- Tracking Status -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-poppins font-semibold text-gray-800">Ride Tracking</h3>
+                            <p id="trackingStatus" class="text-gray-600 text-sm">Not currently tracking</p>
+                        </div>
+                        <button id="toggleTrackingBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-full transition-all duration-300 btn-hover btn-active flex items-center space-x-2">
+                            <i class="fas fa-play"></i>
+                            <span>Start Tracking</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Emergency Contacts -->
+                <div>
+                    <h3 class="text-lg font-poppins font-semibold text-gray-800 mb-3">Emergency Contacts</h3>
+                    <div class="space-y-3 mb-4">
+                        <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                            <div>
+                                <p class="font-medium">Sarah Johnson</p>
+                                <p class="text-sm text-gray-600">+1 (555) 123-4567</p>
+                            </div>
+                            <button class="text-red-500 hover:text-red-600">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                            <div>
+                                <p class="font-medium">Emergency Services</p>
+                                <p class="text-sm text-gray-600">911</p>
+                            </div>
+                            <button class="text-red-500 hover:text-red-600">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="text-purple-600 hover:text-purple-700 font-medium flex items-center space-x-2">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add New Contact</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Safety Tips -->
+            <div class="bg-white rounded-xl shadow-md p-6 animate-fade-in" style="animation-delay: 0.2s;">
+                <h2 class="text-xl font-poppins font-semibold text-gray-800 mb-4">Safety Tips for Rides</h2>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 h-5 w-5 text-purple-600 mt-0.5"><i class="fas fa-check-circle"></i></div>
+                        <p class="text-sm text-gray-700">Always verify the driver's identity and car details before entering</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 h-5 w-5 text-purple-600 mt-0.5"><i class="fas fa-check-circle"></i></div>
+                        <p class="text-sm text-gray-700">Share your ride details with a trusted contact</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 h-5 w-5 text-purple-600 mt-0.5"><i class="fas fa-check-circle"></i></div>
+                        <p class="text-sm text-gray-700">Sit in the back seat, preferably behind the passenger seat</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 h-5 w-5 text-purple-600 mt-0.5"><i class="fas fa-check-circle"></i></div>
+                        <p class="text-sm text-gray-700">Trust your instincts - if something feels wrong, don't hesitate to cancel the ride</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Deviation Alert Modal -->
+    <div id="deviationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 deviation-warning">
+            <div class="flex items-center space-x-3 mb-4">
+                <div class="bg-red-100 p-3 rounded-full">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-poppins font-semibold text-gray-800">Route Deviation Detected</h3>
+            </div>
+            <p class="text-gray-600 mb-6">You have deviated significantly from your planned route. Your emergency contacts will be notified in <span id="countdown" class="font-bold">10</span> seconds unless you cancel.</p>
+            <div class="flex space-x-3">
+                <button id="cancelAlertBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition-all duration-300 btn-hover btn-active">
+                    Cancel Alert
+                </button>
+                <button id="confirmEmergencyBtn" class="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all duration-300 btn-hover btn-active">
+                    Emergency!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // DOM Elements
+        const destinationInput = document.getElementById('destination');
+        const setDestinationBtn = document.getElementById('setDestinationBtn');
+        const toggleTrackingBtn = document.getElementById('toggleTrackingBtn');
+        const trackingStatus = document.getElementById('trackingStatus');
+        const deviationModal = document.getElementById('deviationModal');
+        const cancelAlertBtn = document.getElementById('cancelAlertBtn');
+        const confirmEmergencyBtn = document.getElementById('confirmEmergencyBtn');
+        const countdownElement = document.getElementById('countdown');
+        
+        // State variables
+        let isTracking = false;
+        let destinationSet = false;
+        let countdownInterval;
+        let currentCountdown = 10;
+        
+        // Set destination button click handler
+        setDestinationBtn.addEventListener('click', function() {
+            if (destinationInput.value.trim() === '') {
+                alert('Please enter a destination address');
+                return;
+            }
+            
+            destinationSet = true;
+            document.querySelector('.map-placeholder').innerHTML = `
+                <div class="text-center p-4">
+                    <div class="relative mx-auto w-64 h-64 mb-4">
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-purple-600 rounded-full z-10"></div>
+                        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-red-500 rounded-full z-10"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-32 bg-purple-300 route-animation"></div>
+                    </div>
+                    <p class="text-gray-700">Route to <span class="font-semibold">${destinationInput.value}</span> is set</p>
+                    <p class="text-sm text-gray-500 mt-2">Tracking will begin when you start your ride</p>
+                </div>
+            `;
+            
+            trackingStatus.textContent = 'Destination set - ready to track';
+            setDestinationBtn.textContent = 'Change Destination';
+        });
+        
+        // Toggle tracking button click handler
+        toggleTrackingBtn.addEventListener('click', function() {
+            if (!destinationSet) {
+                alert('Please set a destination first');
+                return;
+            }
+            
+            isTracking = !isTracking;
+            
+            if (isTracking) {
+                toggleTrackingBtn.innerHTML = '<i class="fas fa-pause"></i><span>Stop Tracking</span>';
+                toggleTrackingBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                toggleTrackingBtn.classList.add('bg-purple-600', 'text-white');
+                trackingStatus.textContent = 'Tracking active - monitoring your route';
+                
+                // Simulate route deviation after 15 seconds (for demo)
+                setTimeout(() => {
+                    if (isTracking) {
+                        showDeviationAlert();
+                    }
+                }, 15000);
+            } else {
+                toggleTrackingBtn.innerHTML = '<i class="fas fa-play"></i><span>Start Tracking</span>';
+                toggleTrackingBtn.classList.remove('bg-purple-600', 'text-white');
+                toggleTrackingBtn.classList.add('bg-gray-200', 'text-gray-700');
+                trackingStatus.textContent = 'Tracking paused';
+            }
+        });
+        
+        // Show deviation alert modal
+        function showDeviationAlert() {
+            deviationModal.classList.remove('hidden');
+            currentCountdown = 10;
+            countdownElement.textContent = currentCountdown;
+            
+            countdownInterval = setInterval(() => {
+                currentCountdown--;
+                countdownElement.textContent = currentCountdown;
+                
+                if (currentCountdown <= 0) {
+                    clearInterval(countdownInterval);
+                    sendEmergencyAlert();
+                }
+            }, 1000);
+        }
+        
+        // Cancel alert button click handler
+        cancelAlertBtn.addEventListener('click', function() {
+            clearInterval(countdownInterval);
+            deviationModal.classList.add('hidden');
+            trackingStatus.textContent = 'Tracking active - monitoring your route';
+        });
+        
+        // Confirm emergency button click handler
+        confirmEmergencyBtn.addEventListener('click', function() {
+            clearInterval(countdownInterval);
+            sendEmergencyAlert();
+        });
+        
+        // Send emergency alert to contacts
+        function sendEmergencyAlert() {
+            deviationModal.classList.add('hidden');
+            trackingStatus.textContent = 'EMERGENCY ALERT SENT TO CONTACTS';
+            
+            // In a real app, this would send actual notifications
+            alert('Emergency alert has been sent to your contacts!');
+            
+            // Reset tracking
+            isTracking = false;
+            toggleTrackingBtn.innerHTML = '<i class="fas fa-play"></i><span>Start Tracking</span>';
+            toggleTrackingBtn.classList.remove('bg-purple-600', 'text-white');
+            toggleTrackingBtn.classList.add('bg-gray-200', 'text-gray-700');
+        }
+        
+        // In a real app, you would integrate with actual maps API (Google Maps, Mapbox, etc.)
+        // and implement proper geolocation tracking with route comparison
+    </script>
+</body>
+</html>
