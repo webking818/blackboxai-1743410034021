@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FemCare - PCOS Prediction & Women's Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+        }
+        .btn-active:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="font-roboto bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="text-2xl font-poppins font-bold text-purple-600">FemCare</div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600 transition-colors">Home</a>
+                    <a href="prediction.html" class="text-gray-700 hover:text-purple-600 transition-colors">PCOS Prediction</a>
+                    <a href="articles.html" class="text-gray-700 hover:text-purple-600 transition-colors">Articles</a>
+                    <a href="cab-assistant.html" class="text-gray-700 hover:text-purple-600 transition-colors">Cab Assistant</a>
+                    <a href="counseling.html" class="text-gray-700 hover:text-purple-600 transition-colors">Counseling</a>
+                </div>
+                <button id="emergencyBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-all duration-300 flex items-center space-x-2">
+                    <i class="fas fa-bell"></i>
+                    <span>Emergency</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-4">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+            <div class="animate-fade-in" style="animation-delay: 0.1s;">
+                <h1 class="text-4xl md:text-5xl font-poppins font-bold text-gray-800 mb-4">Your Complete <span class="text-purple-600">Women's Health</span> Companion</h1>
+                <p class="text-lg text-gray-600 mb-8">Early PCOS detection, emergency alerts, health resources, and gynecological counseling - all in one elegant platform.</p>
+                <div class="flex space-x-4">
+                    <a href="prediction.html" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full transition-all duration-300 btn-hover btn-active">Start Prediction</a>
+                    <a href="articles.html" class="border border-purple-600 text-purple-600 hover:bg-purple-50 px-6 py-3 rounded-full transition-all duration-300 btn-hover btn-active">Learn More</a>
+                </div>
+            </div>
+            <div class="animate-fade-in" style="animation-delay: 0.3s;">
+                <img src="https://images.pexels.com/photos/3825586/pexels-photo-3825586.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Women's Health" class="rounded-xl shadow-xl w-full h-auto">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-poppins font-bold text-center text-gray-800 mb-12">Our Features</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-heartbeat text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-poppins font-semibold mb-2">PCOS Prediction</h3>
+                    <p class="text-gray-600">Early detection system using advanced AI to assess your risk factors.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-bell text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-poppins font-semibold mb-2">Emergency Alerts</h3>
+                    <p class="text-gray-600">Instant notifications to your emergency contacts when you need help.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-comment-medical text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-poppins font-semibold mb-2">Expert Counseling</h3>
+                    <p class="text-gray-600">Connect with gynecologists via live chat or video appointments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
