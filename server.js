@@ -131,31 +131,51 @@ io.on('connection', (socket) => {
   console.log('New client connected:', socket.id);
   
   // Handle emergency alerts
-  socket.on('emergency', (data) => {
-    const { userId, location } = data;
-    console.log(`Emergency alert from user ${userId}`);
+  socket.on('emergencyAlert', (data) => {
+    const { userId, type, severity, location, message, contacts } = data;
+    console.log(`[${severity}] ${type} emergency from ${userId}:`, message);
     
-    // Store active emergency
+    // Store active emergency with more details
     activeEmergencies[userId] = {
+      type,
+      severity,
       timestamp: new Date(),
       location,
+      message,
+      contacts,
       socketId: socket.id
     };
     
-    // Notify all clients about the emergency
+    // Enhanced emergency notification
     io.emit('emergencyAlert', {
       userId,
-      message: `Emergency alert from user ${userId}`,
+      type,
+      severity,
+      message: message || `${type} emergency from ${userId}`,
       location,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      mapUrl: location ? `https://www.google.com/maps?q=${location.latitude},${location.longitude}` : null
     });
     
-    // In a real app, this would trigger SMS/email to contacts
-    if (emergencyContacts[userId]) {
-      emergencyContacts[userId].forEach(contact => {
-        console.log(`Notifying ${contact.name} at ${contact.phone}`);
+    // Simulate notifying emergency contacts
+    if (contacts && contacts.length) {
+      console.log(`Notifying ${contacts.length} emergency contacts:`);
+      contacts.forEach(contact => {
+        console.log(`- ${contact.name}: ${contact.phone}`);
+        // In real app: send SMS/email/notification here
       });
+    } else {
+      console.log('No emergency contacts found for user');
     }
+    
+    // Log emergency details
+    console.log('Emergency details:', {
+      userId,
+      type,
+      severity,
+      location,
+      time: new Date().toLocaleString()
+    });
   });
   
   // Handle emergency cancellation
