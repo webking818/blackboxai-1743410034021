@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "Understanding PCOS: Symptoms and Diagnosis",
+    "category": "PCOS",
+    "excerpt": "Learn about the common signs of Polycystic Ovary Syndrome and how it's diagnosed by healthcare professionals.",
+    "image": "https://images.pexels.com/photos/7550281/pexels-photo-7550281.jpeg",
+    "readTime": "5 min read",
+    "content": "Full article content would appear here...",
+    "date": "2023-10-15"
+  },
+  {
+    "id": 2,
+    "title": "Dietary Approaches for Managing PCOS Symptoms",
+    "category": "Nutrition",
+    "excerpt": "Discover how certain foods can help regulate hormones and improve PCOS symptoms like insulin resistance.",
+    "image": "https://images.pexels.com/photos/6626903/pexels-photo-6626903.jpeg",
+    "readTime": "7 min read",
+    "content": "Full article content would appear here...",
+    "date": "2023-10-10"
+  },
+  {
+    "id": 3,
+    "title": "Best Exercises for Women with PCOS",
+    "category": "Fitness",
+    "excerpt": "Explore the most effective workout routines that can help manage PCOS symptoms and boost overall health.",
+    "image": "https://images.pexels.com/photos/6551166/pexels-photo-6551166.jpeg",
+    "readTime": "6 min read",
+    "content": "Full article content would appear here...",
+    "date": "2023-10-05"
+  },
+  {
+    "id": 4,
+    "title": "Coping with the Emotional Impact of PCOS",
+    "category": "Mental Health",
+    "excerpt": "Strategies to manage stress, anxiety, and depression that often accompany PCOS diagnosis and symptoms.",
+    "image": "https://images.pexels.com/photos/4050344/pexels-photo-4050344.jpeg",
+    "readTime": "8 min read",
+    "content": "Full article content would appear here...",
+    "date": "2023-09-28"
+  },
+  {
+    "id": 5,
+    "title": "PCOS and Fertility: What You Need to Know",
+    "category": "Fertility",
+    "excerpt": "Understanding how PCOS affects fertility and the available treatment options for those trying to conceive.",
+    "image": "https://images.pexels.com/photos/7550283/pexels-photo-7550283.jpeg",
+    "readTime": "10 min read",
+    "content": "Full article content would appear here...",
+    "date": "2023-09-20"
+  },
+  {
+    "id": 6,
+    "title": "Medical Treatments for PCOS: A Comprehensive Guide",
+    "category": "Treatment",
+    "excerpt": "An overview of pharmaceutical options available for managing different aspects of PCOS symptoms.",
+    "image": "https://images.pexels.com/photos/4474047/pexels-photo-4474047.jpeg",
+    "readTime": "9 min read",
+    "content": "Full article content would appear here...",
+    "date": "2023-09-15"
+  }
+]
